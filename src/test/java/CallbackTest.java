@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,8 +16,11 @@ public class CallbackTest {
 
     @BeforeAll
     static void setUpAll() {
-        System.setProperty("webdriver.chrome.driver", "driver/win/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
     }
+    // System.setProperty("webdriver.chrome.driver", "driver/win/chromedriver.exe");
+    // }
+
 
     @BeforeEach
     public void setUp() {
@@ -32,7 +36,7 @@ public class CallbackTest {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("span[data-test-id='name'] input")).sendKeys("Дмитрий");
         driver.findElement(By.cssSelector("span[data-test-id='phone'] input")).sendKeys("+79211448227");
-        driver.findElement(By.cssSelector("label[data-test-id='agreement']" )).click();
+        driver.findElement(By.cssSelector("label[data-test-id='agreement']")).click();
         driver.findElement(By.cssSelector("button.button")).click();
         String text = driver.findElement(By.cssSelector("p[data-test-id]")).getText();
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
